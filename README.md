@@ -125,6 +125,12 @@ pip install -r requirements.txt
 jupyter notebook dnn_nn_comp.ipynb
 ```
 
+### Запуск тестов
+
+```bash
+pytest -q
+```
+
 ## Структура кода
 
 ### granville_nn.py

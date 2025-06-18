@@ -42,7 +42,7 @@ def load_and_preprocess_data():
     
     return X_train, X_val, X_test, y_train, y_val, y_test
 
-def test_granville_original(X_train, X_val, X_test, y_train, y_val, y_test):
+def benchmark_granville_original(X_train, X_val, X_test, y_train, y_val, y_test):
     """Test the original Granville neural network."""
     print("\n🚀 Testing Granville Original...")
     
@@ -109,7 +109,7 @@ def test_granville_original(X_train, X_val, X_test, y_train, y_val, y_test):
         'epochs': len(train_history)
     }
 
-def test_granville_optimized(X_train, X_val, X_test, y_train, y_val, y_test):
+def benchmark_granville_optimized(X_train, X_val, X_test, y_train, y_val, y_test):
     """Test the optimized Granville neural network."""
     print("\n🚀 Testing Granville Optimized...")
     
@@ -168,7 +168,7 @@ def test_granville_optimized(X_train, X_val, X_test, y_train, y_val, y_test):
         'epochs': model_info['epochs_trained']
     }
 
-def test_pytorch_model(model_class, model_name, X_train, X_val, X_test, y_train, y_val, y_test):
+def benchmark_pytorch_model(model_class, model_name, X_train, X_val, X_test, y_train, y_val, y_test):
     """Test a PyTorch neural network model."""
     print(f"\n🚀 Testing {model_name}...")
     
@@ -280,30 +280,30 @@ def run_comprehensive_comparison():
     
     # 1. Original Granville
     try:
-        result1 = test_granville_original(X_train, X_val, X_test, y_train, y_val, y_test)
+        result1 = benchmark_granville_original(X_train, X_val, X_test, y_train, y_val, y_test)
         results.append(result1)
     except Exception as e:
         print(f"   ❌ Failed: {e}")
     
     # 2. Optimized Granville
     try:
-        result2 = test_granville_optimized(X_train, X_val, X_test, y_train, y_val, y_test)
+        result2 = benchmark_granville_optimized(X_train, X_val, X_test, y_train, y_val, y_test)
         results.append(result2)
     except Exception as e:
         print(f"   ❌ Failed: {e}")
     
     # 3. PyTorch Net1_4_1
     try:
-        result3 = test_pytorch_model(net_torch.Net1_4_1, "PyTorch Net1_4_1", 
-                                   X_train, X_val, X_test, y_train, y_val, y_test)
+        result3 = benchmark_pytorch_model(net_torch.Net1_4_1, "PyTorch Net1_4_1",
+                                         X_train, X_val, X_test, y_train, y_val, y_test)
         results.append(result3)
     except Exception as e:
         print(f"   ❌ Failed: {e}")
     
     # 4. PyTorch Net10_10_1
     try:
-        result4 = test_pytorch_model(net_torch.Net10_10_1, "PyTorch Net10_10_1",
-                                   X_train, X_val, X_test, y_train, y_val, y_test)
+        result4 = benchmark_pytorch_model(net_torch.Net10_10_1, "PyTorch Net10_10_1",
+                                         X_train, X_val, X_test, y_train, y_val, y_test)
         results.append(result4)
     except Exception as e:
         print(f"   ❌ Failed: {e}")
