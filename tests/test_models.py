@@ -1,5 +1,5 @@
 """
-Comprehensive Neural Network Model Comparison Test
+Neural Network Model Comparison Test
 =================================================
 
 This script validates the workability of all four neural network models
@@ -13,6 +13,19 @@ from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+
+# Import enhanced data loading module
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from data_loading import (
+    load_and_analyze_dataset,
+    create_train_val_test_splits,
+    DataPreprocessor,
+    validate_data_consistency,
+    create_data_summary,
+    print_data_pipeline_summary
+)
 
 # Import our models
 import granville_nn

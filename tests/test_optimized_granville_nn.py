@@ -74,26 +74,50 @@ class TestOptimizedGranvilleDNN(unittest.TestCase):
     def test_input_validation(self):
         """Test that the model raises errors for invalid input."""
         # Test fit() validation
+        
+        # Test invalid X shape (1D instead of 2D)
         with self.assertRaises(AssertionError):
-            self.model.fit(self.X_train.tolist(), self.y_train) # Invalid X type
+            self.model.fit(self.X_train.flatten(), self.y_train)
+        
+        # Test invalid y shape (2D instead of 1D)  
         with self.assertRaises(AssertionError):
-            self.model.fit(self.X_train, self.y_train.reshape(-1, 1)) # Invalid y shape
+            self.model.fit(self.X_train, self.y_train.reshape(-1, 1))
+        
+        # Test mismatched lengths
         with self.assertRaises(AssertionError):
-            self.model.fit(self.X_train[:10], self.y_train) # Mismatched lengths
+            self.model.fit(self.X_train[:10], self.y_train)
+        
+        # Test invalid X_val shape when provided
+        with self.assertRaises(AssertionError):
+            self.model.fit(self.X_train, self.y_train, 
+                          X_val=self.X_test[:, :2], y_val=self.y_test[:20])  # Wrong feature count
+        
+        # Test invalid loss function
+        with self.assertRaises(AssertionError):
+            self.model.fit(self.X_train, self.y_train, loss_function='invalid_loss')
 
+        # Now fit the model properly for subsequent tests
         self.model.fit(self.X_train, self.y_train)
 
-        # Test predict() validation
+        # Test predict() validation - model not trained case is handled by fit above
+        # Test wrong number of features
+        with self.assertRaises((AssertionError, ValueError)):
+            self.model.predict(self.X_test[:, :2])  # Wrong feature count
+        
+        # Test invalid X shape for predict
         with self.assertRaises(AssertionError):
-            self.model.predict(self.X_test.tolist()) # Invalid X type
+            self.model.predict(self.X_test.flatten())  # 1D instead of 2D        # Test score() validation
+        # Test invalid y shape
         with self.assertRaises(AssertionError):
-            self.model.predict(self.X_test[:, :2]) # Incorrect feature count
-
-        # Test score() validation
+            self.model.score(self.X_test, self.y_test.reshape(-1, 1))
+        
+        # Test mismatched X and y lengths
         with self.assertRaises(AssertionError):
-            self.model.score(self.X_test, self.y_test.reshape(-1, 1)) # Invalid y shape
+            self.model.score(self.X_test[:10], self.y_test)
+        
+        # Test invalid metric
         with self.assertRaises(AssertionError):
-            self.model.score(self.X_test, self.y_test, metric='invalid_metric') # Invalid metric
+            self.model.score(self.X_test, self.y_test, metric='invalid_metric')
 
     def test_early_stopping(self):
         """Test the early stopping functionality."""

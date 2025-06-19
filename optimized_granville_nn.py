@@ -758,7 +758,7 @@ if __name__ == "__main__":
     from sklearn.utils import Bunch
     
     print("=== Optimized Granville DNN Performance Test ===\n")    # Load and prepare data
-    data: Bunch = fetch_california_housing()
+    data: Bunch = fetch_california_housing()   # type: ignore
     X, y = data.data, data.target
     
     # Scale features to [0,1] as required by Granville DNN
